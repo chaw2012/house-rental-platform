@@ -1,0 +1,44 @@
+Description: Root Stack for the Application
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+Resources:
+  NetworkStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: network.yml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+
+  ComputeStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: compute.yml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        VPC: !GetAtt NetworkStack.Outputs.VPC
+        PublicSubnet: !GetAtt NetworkStack.Outputs.PublicSubnet
+
+  DatabaseStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: database.yml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        VPC: !GetAtt NetworkStack.Outputs.VPC
+
+Outputs:
+  ECSCluster:
+    Description: A reference to the created ECS cluster
+    Value: !GetAtt ComputeStack.Outputs.ECSCluster
+
+  ALB:
+    Description: A reference to the created ALB
+    Value: !GetAtt ComputeStack.Outputs.ALB
+
+  MongoDB:
+    Description: A reference to the created MongoDB cluster
+    Value: !GetAtt DatabaseStack.Outputs.MongoDB

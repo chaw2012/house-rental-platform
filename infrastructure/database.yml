@@ -1,0 +1,36 @@
+Description: Database Resources
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+  VPC:
+    Description: A reference to the VPC created in the network stack
+    Type: AWS::EC2::VPC::Id
+
+Resources:
+  DatabaseSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnets available for the RDS DBs
+      SubnetIds:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+
+  MongoDB:
+    Type: AWS::DocDB::DBCluster
+    Properties:
+      MasterUserPassword: !Ref DatabasePassword
+      MasterUsername: !Ref DatabaseUsername
+      DBSubnetGroupName: !Ref DatabaseSubnetGroup
+      VpcSecurityGroupIds:
+        - !Ref DatabaseSecurityGroup
+
+  # ... (Define other database resources like security groups, parameter groups, etc.)
+
+Outputs:
+  MongoDB:
+    Description: A reference to the created MongoDB cluster
+    Value: !Ref MongoDB
+    Export:
+      Name: !Sub ${EnvironmentName}-MongoDB

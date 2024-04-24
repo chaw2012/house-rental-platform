@@ -1,0 +1,51 @@
+project-root/
+├── backend/
+│   ├── app.js
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── tenants.routes.js
+│   │   ├── listings.routes.js
+│   │   ├── bookings.routes.js
+│   │   └── payments.routes.js
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── tenants.controller.js
+│   │   ├── listings.controller.js
+│   │   ├── bookings.controller.js
+│   │   └── payments.controller.js
+│   ├── middleware/
+│   │   └── auth.middleware.js
+│   ├── models/
+│   │   ├── tenant.model.js
+│   │   ├── listing.model.js
+│   │   └── booking.model.js
+│   ├── utils/
+│   │   └── auth.utils.js
+│   ├── config/
+│   │   └── db.config.js
+│   └── package.json
+├── frontend/
+│   ├── pages/
+│   │   ├── tenants/
+│   │   │   ├── register.jsx
+│   │   │   └── login.jsx
+│   │   ├── admin/
+│   │   │   └── vetting.jsx
+│   │   ├── listings/
+│   │   │   ├── ListingsList.jsx
+│   │   │   └── ListingDetails.jsx
+│   │   ├── bookings/
+│   │   │   └── BookingsList.jsx
+│   │   ├── _app.js
+│   │   └── index.js
+│   ├── components/
+│   │   ├── SearchFilters.jsx
+│   │   ├── BookingForm.jsx
+│   │   ├── PaymentForm.jsx
+│   │   └── ProtectedRoute.jsx
+│   ├── utils/
+│   │   └── auth.js
+│   ├── api/
+│   │   └── axios.js
+│   └── package.json
+└── package.json

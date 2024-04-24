@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14.x
+    commands:
+      - echo "Installing dependencies..."
+      - cd backend
+      - npm install
+      - cd ../frontend
+      - npm install
+  pre_build:
+    commands:
+      - echo "Running tests..."
+      - cd backend
+      - npm test
+      - cd ../frontend
+      - npm test
+  build:
+    commands:
+      - echo "Building frontend..."
+      - cd frontend
+      - npm run build
+      - echo "Building backend..."
+      - cd ../backend
+      - npm run build
+  post_build:
+    commands:
+      - echo "Packaging artifacts..."
+      - aws cloudformation package --template-file sam.yaml --s3-bucket ${ARTIFACT_BUCKET} --output-template-file output-sam.yaml
+artifacts:
+  files:
+    - backend/dist/**/*
+    - frontend/build/**/*
+    - output-sam.yaml
